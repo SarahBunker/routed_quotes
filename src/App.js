@@ -75,9 +75,6 @@ const CreateNew = ({setNotification, addNew}) => {
   const content = useField('text')
   const author = useField('text')
   const info = useField('text')
-  // const [content, setContent] = useState('')
-  // const [author, setAuthor] = useState('')
-  // const [info, setInfo] = useState('')
 
   let navigate = useNavigate();
 
@@ -102,24 +99,39 @@ const CreateNew = ({setNotification, addNew}) => {
     }, 5000)
   }
 
+  const handleReset = () => {
+    content.reset();
+    author.reset();
+    info.reset();
+  }
+
+  const attrsWithoutReset = (obj) => {
+    let keys = Object.keys(obj);
+    let newObj = {}
+    keys.filter( key => key != "reset")
+        .forEach( key => newObj[key] = obj[key])
+    return newObj;
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input {...content} />
+          <input {...attrsWithoutReset(content)} />
 
         </div>
         <div>
           author
-          <input {...author} />
+          <input {...attrsWithoutReset(author)} />
         </div>
         <div>
           url for more info
-          <input {...info} />
+          <input {...attrsWithoutReset(info)} />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
+        <button type="reset" onClick={handleReset}>reset</button>
       </form>
     </div>
   )
